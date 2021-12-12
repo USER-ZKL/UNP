@@ -60,14 +60,17 @@ int main(int argc, char*argv[]){
 	mysignal(SIGCHLD, sig_child);
 	for(;;){
 		clilen = sizeof(cliaddr);
-		if(connfd = accept(listenfd, (struct sockaddr*)&cliaddr, &clilen) < 0){
-			if(errno == EINTR)
-					continue;
-			else{
-					printf("accept errno");
-					exit(0);
-			}
-		}
+		if((connfd = accept(listenfd, (struct sockaddr*)&cliaddr, &clilen))< 0){
+				if(errno == EINTR)
+								continue;
+				else{
+						printf("accept error");
+						exit(0);
+				}
+		
+		
+		}else printf("accept successful");
+		sleep(10);
 		if((childpid = fork())== 0){
 			close(listenfd);
 			str_echo(connfd);
